@@ -116,34 +116,11 @@ td,th{
 .grade th:last-child,.grade td:last-child{width:10%}
 .grade td{height:39px}
 
-/* FIXED: One continuous outer red border */
+/* Relationship row highlight */
 .grade .relationship td{
- color:#000 !important;
- background:#d5d7dc !important;
-
- /* Remove previous border styling */
- border-color:white !important;
-
- /* Draw top and bottom red lines */
- box-shadow:
-   inset 0 2px 0 red,
-   inset 0 -2px 0 red;
-}
-
-/* Only the left outer edge */
-.grade .relationship td:first-child{
- box-shadow:
-   inset 2px 0 0 red,
-   inset 0 2px 0 red,
-   inset 0 -2px 0 red;
-}
-
-/* Only the right outer edge */
-.grade .relationship td:last-child{
- box-shadow:
-   inset -2px 0 0 red,
-   inset 0 2px 0 red,
-   inset 0 -2px 0 red;
+ background:#ed0808 !important;
+ color:#ffffff !important;
+ font-weight:bold;
 }
 
 .demo{
@@ -218,6 +195,7 @@ td,th{
 <body>
 
 <div class="toolbar">
+
  <input
   id="nameInput"
   value="Alfahad Shohag"
@@ -227,6 +205,7 @@ td,th{
  <button class="download" onclick="downloadPNG()">↓ Download</button>
  <button class="share" onclick="sharePNG()">↗ Share</button>
  <button class="print" onclick="window.print()">Print</button>
+
 </div>
 
 <div class="wrapper">
@@ -235,45 +214,53 @@ td,th{
 <h1>HSC/Dakhil/Equivalent Result 2026</h1>
 
 <table class="info">
+
 <tr>
  <td>Roll No</td>
  <td class="green">123456</td>
  <td>Name</td>
  <td id="studentName">Alfahad Shohag</td>
 </tr>
+
 <tr>
  <td>Board</td>
  <td>Dhaka</td>
  <td>Father's Name</td>
  <td class="green"></td>
 </tr>
+
 <tr>
  <td>Group</td>
  <td>SCIENCE</td>
  <td>Mother's Name</td>
  <td class="green"></td>
 </tr>
+
 <tr>
  <td>Type</td>
  <td>REGULAR</td>
  <td>Date of Birth</td>
  <td>N/A</td>
 </tr>
+
 <tr>
  <td>Result</td>
  <td class="fail">FAIL</td>
  <td>Institute</td>
  <td class="green"></td>
 </tr>
+
 <tr>
  <td>GPA</td>
  <td colspan="3">0.00</td>
 </tr>
+
 </table>
 
 <div class="grade-title">Grade Sheet</div>
 
 <table class="grade">
+
 <thead>
 <tr>
  <th>Code</th>
@@ -283,16 +270,19 @@ td,th{
 </thead>
 
 <tbody>
+
 <tr>
  <td>101</td>
  <td>BANGLA</td>
  <td>A+</td>
 </tr>
+
 <tr>
  <td>107</td>
  <td>ENGLISH</td>
  <td>A+</td>
 </tr>
+
 <tr>
  <td>275</td>
  <td>INFORMATION AND COMMUNICATION TECHNOLOGY</td>
@@ -310,27 +300,31 @@ td,th{
  <td>PHYSICS</td>
  <td>A+</td>
 </tr>
+
 <tr>
  <td>176</td>
  <td>CHEMISTRY</td>
  <td>A+</td>
 </tr>
+
 <tr>
  <td>126</td>
  <td>HIGHER MATHEMATICS</td>
  <td>A+</td>
 </tr>
+
 <tr>
  <td>128</td>
  <td>BIOLOGY</td>
  <td>A+</td>
 </tr>
+
 </tbody>
 </table>
 
-<!-- <div class="demo">
+<div class="demo">
  UNOFFICIAL DEMO RESULT — FOR ENTERTAINMENT ONLY
-</div> -->
+</div>
 
 </div>
 
@@ -361,7 +355,7 @@ async function downloadPNG(){
  const canvas=await capture();
  const link=document.createElement('a');
 
- link.download='HSC-Result-2026.png';
+ link.download='HSC-Demo-Result.png';
  link.href=canvas.toDataURL('image/png');
  link.click();
 }
@@ -372,7 +366,7 @@ async function sharePNG(){
  canvas.toBlob(async blob=>{
   const file=new File(
    [blob],
-   'HSC-Result-2026.png',
+   'HSC-Demo-Result.png',
    {type:'image/png'}
   );
 
@@ -386,7 +380,7 @@ async function sharePNG(){
   }else{
    const link=document.createElement('a');
    link.href=URL.createObjectURL(blob);
-   link.download='HSC-Result-2026.png';
+   link.download='HSC-Demo-Result.png';
    link.click();
   }
  },'image/png');
