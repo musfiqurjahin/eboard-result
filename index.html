@@ -1,0 +1,397 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HSC Result Maker</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+ margin:0;
+ background:#eef0f3;
+ color:#111;
+ font-family:Arial,Helvetica,sans-serif;
+}
+
+.toolbar{
+ max-width:1080px;
+ margin:22px auto;
+ padding:15px;
+ background:white;
+ border-radius:8px;
+ display:flex;
+ gap:10px;
+ align-items:center;
+ box-shadow:0 2px 12px #0001;
+}
+
+.toolbar input{
+ flex:1;
+ min-width:0;
+ padding:13px;
+ border:1px solid #ccc;
+ border-radius:5px;
+ font-size:15px;
+}
+
+button{
+ border:0;
+ padding:13px 19px;
+ border-radius:5px;
+ font-size:14px;
+ font-weight:bold;
+ cursor:pointer;
+}
+
+.download{background:#579e3d;color:white}
+.share{background:#2875c7;color:white}
+.print{background:#777;color:white}
+
+button:hover{filter:brightness(.92)}
+
+.wrapper{
+ max-width:1080px;
+ margin:0 auto;
+ background:white;
+ overflow:hidden;
+}
+
+#result{
+ background:white;
+ padding:14px;
+ width:100%;
+}
+
+h1{
+ text-align:center;
+ font-size:clamp(26px,5vw,54px);
+ font-weight:900;
+ margin:45px 0 68px;
+ white-space:nowrap;
+ letter-spacing:-1.5px;
+}
+
+table{
+ width:100%;
+ border-collapse:collapse;
+ table-layout:fixed;
+}
+
+td,th{
+ border:2px solid white;
+ padding:6px 5px;
+ background:#d5d7dc;
+ font-size:clamp(12px,2.2vw,23px);
+ height:39px;
+ overflow-wrap:anywhere;
+}
+
+.info td:nth-child(1){width:14%}
+.info td:nth-child(2){width:28%}
+.info td:nth-child(3){width:24%}
+.info td:nth-child(4){width:34%}
+
+.green{background:#a1c9a9}
+.fail{background:#ed0808;color:white;font-weight:bold}
+
+.grade-title{
+ text-align:center;
+ font-weight:bold;
+ font-size:30px;
+ margin:19px 0;
+}
+
+.grade th{
+ background:#adb0b6;
+ text-align:left;
+ font-weight:bold;
+}
+
+.grade td{background:#d5d7dc}
+.grade th:first-child,.grade td:first-child{width:20%}
+.grade th:last-child,.grade td:last-child{width:10%}
+.grade td{height:39px}
+
+/* FIXED: One continuous outer red border */
+.grade .relationship td{
+ color:#000 !important;
+ background:#d5d7dc !important;
+
+ /* Remove previous border styling */
+ border-color:white !important;
+
+ /* Draw top and bottom red lines */
+ box-shadow:
+   inset 0 2px 0 red,
+   inset 0 -2px 0 red;
+}
+
+/* Only the left outer edge */
+.grade .relationship td:first-child{
+ box-shadow:
+   inset 2px 0 0 red,
+   inset 0 2px 0 red,
+   inset 0 -2px 0 red;
+}
+
+/* Only the right outer edge */
+.grade .relationship td:last-child{
+ box-shadow:
+   inset -2px 0 0 red,
+   inset 0 2px 0 red,
+   inset 0 -2px 0 red;
+}
+
+.demo{
+ text-align:center;
+ color:#8b2727;
+ background:#fff0f0;
+ border:1px solid #e7b5b5;
+ padding:9px;
+ margin-top:12px;
+ font-size:12px;
+ font-weight:bold;
+ letter-spacing:1px;
+}
+
+.print-btn{
+ display:block;
+ background:#5ba13e;
+ color:white;
+ font-size:23px;
+ padding:23px 54px;
+ border-radius:6px;
+ margin:12px 5px 10px;
+}
+
+@media(max-width:600px){
+ .toolbar{
+  margin:10px;
+  flex-wrap:wrap;
+ }
+
+ .toolbar input{flex-basis:100%}
+
+ .toolbar button{
+  flex:1;
+  padding:12px 7px;
+  font-size:12px;
+ }
+
+ #result{padding:5px}
+
+ h1{
+  font-size:clamp(20px,5vw,30px);
+  margin:30px 0 42px;
+  letter-spacing:-.7px;
+ }
+
+ td,th{
+  font-size:clamp(10px,2.5vw,14px);
+  padding:5px 3px;
+  height:auto;
+  min-height:32px;
+ }
+
+ .grade-title{font-size:23px}
+ .grade td{height:34px}
+
+ .print-btn{
+  font-size:18px;
+  padding:17px 35px;
+ }
+}
+
+@media print{
+ body{background:white}
+ .toolbar,.print-btn{display:none}
+ .wrapper{margin:0}
+ #result{padding:10px}
+}
+</style>
+</head>
+
+<body>
+
+<div class="toolbar">
+ <input
+  id="nameInput"
+  value="Alfahad Shohag"
+  placeholder="Enter student name"
+ >
+
+ <button class="download" onclick="downloadPNG()">↓ Download</button>
+ <button class="share" onclick="sharePNG()">↗ Share</button>
+ <button class="print" onclick="window.print()">Print</button>
+</div>
+
+<div class="wrapper">
+<div id="result">
+
+<h1>HSC/Dakhil/Equivalent Result 2026</h1>
+
+<table class="info">
+<tr>
+ <td>Roll No</td>
+ <td class="green">123456</td>
+ <td>Name</td>
+ <td id="studentName">Alfahad Shohag</td>
+</tr>
+<tr>
+ <td>Board</td>
+ <td>Dhaka</td>
+ <td>Father's Name</td>
+ <td class="green"></td>
+</tr>
+<tr>
+ <td>Group</td>
+ <td>SCIENCE</td>
+ <td>Mother's Name</td>
+ <td class="green"></td>
+</tr>
+<tr>
+ <td>Type</td>
+ <td>REGULAR</td>
+ <td>Date of Birth</td>
+ <td>N/A</td>
+</tr>
+<tr>
+ <td>Result</td>
+ <td class="fail">FAIL</td>
+ <td>Institute</td>
+ <td class="green"></td>
+</tr>
+<tr>
+ <td>GPA</td>
+ <td colspan="3">0.00</td>
+</tr>
+</table>
+
+<div class="grade-title">Grade Sheet</div>
+
+<table class="grade">
+<thead>
+<tr>
+ <th>Code</th>
+ <th>Subject</th>
+ <th>Grade</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+ <td>101</td>
+ <td>BANGLA</td>
+ <td>A+</td>
+</tr>
+<tr>
+ <td>107</td>
+ <td>ENGLISH</td>
+ <td>A+</td>
+</tr>
+<tr>
+ <td>275</td>
+ <td>INFORMATION AND COMMUNICATION TECHNOLOGY</td>
+ <td>A+</td>
+</tr>
+
+<tr class="relationship">
+ <td>69</td>
+ <td>RELATIONSHIP</td>
+ <td>F</td>
+</tr>
+
+<tr>
+ <td>174</td>
+ <td>PHYSICS</td>
+ <td>A+</td>
+</tr>
+<tr>
+ <td>176</td>
+ <td>CHEMISTRY</td>
+ <td>A+</td>
+</tr>
+<tr>
+ <td>126</td>
+ <td>HIGHER MATHEMATICS</td>
+ <td>A+</td>
+</tr>
+<tr>
+ <td>128</td>
+ <td>BIOLOGY</td>
+ <td>A+</td>
+</tr>
+</tbody>
+</table>
+
+<!-- <div class="demo">
+ UNOFFICIAL DEMO RESULT — FOR ENTERTAINMENT ONLY
+</div> -->
+
+</div>
+
+<button class="print-btn" onclick="window.print()">PRINT</button>
+</div>
+
+<script>
+const input=document.getElementById('nameInput');
+const output=document.getElementById('studentName');
+
+input.addEventListener('input',()=>{
+ output.textContent=input.value.trim()||'Student Name';
+});
+
+async function capture(){
+ return await html2canvas(
+  document.getElementById('result'),
+  {
+   scale:2,
+   backgroundColor:'#ffffff',
+   useCORS:true,
+   logging:false
+  }
+ );
+}
+
+async function downloadPNG(){
+ const canvas=await capture();
+ const link=document.createElement('a');
+
+ link.download='HSC-Result-2026.png';
+ link.href=canvas.toDataURL('image/png');
+ link.click();
+}
+
+async function sharePNG(){
+ const canvas=await capture();
+
+ canvas.toBlob(async blob=>{
+  const file=new File(
+   [blob],
+   'HSC-Result-2026.png',
+   {type:'image/png'}
+  );
+
+  if(navigator.canShare?.({files:[file]})){
+   try{
+    await navigator.share({
+     title:'HSC Demo Result',
+     files:[file]
+    });
+   }catch(e){}
+  }else{
+   const link=document.createElement('a');
+   link.href=URL.createObjectURL(blob);
+   link.download='HSC-Result-2026.png';
+   link.click();
+  }
+ },'image/png');
+}
+</script>
+
+</body>
+</html>
