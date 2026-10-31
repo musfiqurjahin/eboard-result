@@ -29,13 +29,15 @@ body{
  box-shadow:0 2px 12px #0001;
 }
 
-.toolbar input{
+.toolbar input,
+.toolbar select{
  flex:1;
  min-width:0;
  padding:13px;
  border:1px solid #ccc;
  border-radius:5px;
  font-size:15px;
+ background:white;
 }
 
 button{
@@ -116,23 +118,10 @@ td,th{
 .grade th:last-child,.grade td:last-child{width:10%}
 .grade td{height:39px}
 
-/* Relationship row highlight */
 .grade .relationship td{
  background:#ed0808 !important;
  color:#ffffff !important;
  font-weight:bold;
-}
-
-.demo{
- text-align:center;
- color:#8b2727;
- background:#fff0f0;
- border:1px solid #e7b5b5;
- padding:9px;
- margin-top:12px;
- font-size:12px;
- font-weight:bold;
- letter-spacing:1px;
 }
 
 .print-btn{
@@ -151,7 +140,8 @@ td,th{
   flex-wrap:wrap;
  }
 
- .toolbar input{flex-basis:100%}
+ .toolbar input,
+ .toolbar select{flex-basis:100%}
 
  .toolbar button{
   flex:1;
@@ -202,6 +192,21 @@ td,th{
   placeholder="Enter student name"
  >
 
+ <select id="boardInput">
+  <option value="Dhaka" selected>Dhaka Board</option>
+  <option value="Chattogram">Chattogram Board</option>
+  <option value="Rajshahi">Rajshahi Board</option>
+  <option value="Cumilla">Cumilla Board</option>
+  <option value="Jashore">Jashore Board</option>
+  <option value="Barishal">Barishal Board</option>
+  <option value="Sylhet">Sylhet Board</option>
+  <option value="Dinajpur">Dinajpur Board</option>
+  <option value="Mymensingh">Mymensingh Board</option>
+  <option value="Madrasah">Madrasah Board</option>
+  <option value="Technical">Technical Board</option>
+  <option value="Bangladesh Open University">Open University</option>
+ </select>
+
  <button class="download" onclick="downloadPNG()">↓ Download</button>
  <button class="share" onclick="sharePNG()">↗ Share</button>
  <button class="print" onclick="window.print()">Print</button>
@@ -224,7 +229,7 @@ td,th{
 
 <tr>
  <td>Board</td>
- <td>Dhaka</td>
+ <td id="studentBoard">Dhaka</td>
  <td>Father's Name</td>
  <td class="green"></td>
 </tr>
@@ -260,7 +265,6 @@ td,th{
 <div class="grade-title">Grade Sheet</div>
 
 <table class="grade">
-
 <thead>
 <tr>
  <th>Code</th>
@@ -322,10 +326,6 @@ td,th{
 </tbody>
 </table>
 
-<!-- <div class="demo">
- UNOFFICIAL DEMO RESULT — FOR ENTERTAINMENT ONLY
-</div> -->
-
 </div>
 
 <button class="print-btn" onclick="window.print()">PRINT</button>
@@ -335,8 +335,15 @@ td,th{
 const input=document.getElementById('nameInput');
 const output=document.getElementById('studentName');
 
+const boardInput=document.getElementById('boardInput');
+const boardOutput=document.getElementById('studentBoard');
+
 input.addEventListener('input',()=>{
  output.textContent=input.value.trim()||'Student Name';
+});
+
+boardInput.addEventListener('change',()=>{
+ boardOutput.textContent=boardInput.value;
 });
 
 async function capture(){
