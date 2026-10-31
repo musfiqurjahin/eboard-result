@@ -355,7 +355,7 @@ async function downloadPNG(){
  const canvas=await capture();
  const link=document.createElement('a');
 
- link.download='HSC-Demo-Result.png';
+ link.download='HSC-Result-2026.png';
  link.href=canvas.toDataURL('image/png');
  link.click();
 }
@@ -366,7 +366,7 @@ async function sharePNG(){
  canvas.toBlob(async blob=>{
   const file=new File(
    [blob],
-   'HSC-Demo-Result.png',
+   'HSC-Result-2026.png',
    {type:'image/png'}
   );
 
@@ -380,7 +380,7 @@ async function sharePNG(){
   }else{
    const link=document.createElement('a');
    link.href=URL.createObjectURL(blob);
-   link.download='HSC-Demo-Result.png';
+   link.download='HSC-Result-2026.png';
    link.click();
   }
  },'image/png');
